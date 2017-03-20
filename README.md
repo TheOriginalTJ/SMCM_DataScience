@@ -2,3 +2,6 @@
 This repository will host the files used in our final project for the course, which will potentially be published.
 
 Authors: Thomas St. Arnold.
+
+Data science is cool
+-jp
