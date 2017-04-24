@@ -1,3 +1,4 @@
+from __future__ import division # import for float division instead of integer
 import numpy as np
 from sklearn.cluster import KMeans
 from sklearn import datasets
@@ -5,23 +6,25 @@ import matplotlib.pyplot as plt
 from sklearn.metrics.pairwise import pairwise_distances_argmin
 import csv
 
+
 f = open("violent_crime_by_state.csv")
 f = csv.reader(f)
 violent_crimes=[]
-poverty_rate=[]
 populations=[]
+poverty_rate=[]
 crime_rate=[]
 states=[]
 f.next()#skip headers
 for i in f:
-    populations.append(int(i[3].replace(",", "")))
+    populations.append(int(i[3].replace(",","")))
     violent_crimes.append(int(i[6].replace(",","")))
-    poverty_rate.append(i[7])
+    poverty_rate.append(i[8])
     states.append(i[0])
+    print i[8]
 for i,j in zip(violent_crimes,populations):
-    r=j/i
+    r=i/j
     crime_rate.append(r)
-
+    print r
 dat_data=[crime_rate,poverty_rate]
 dat_data = np.column_stack(dat_data)
 
@@ -31,12 +34,15 @@ centroids = km.cluster_centers_
 dat_label = pairwise_distances_argmin(dat_data, centroids)
 colors = ['b', 'c', 'y']
 plt.figure(figsize=(18,15))
-
+for label, x, y in zip(states, crime_rate, poverty_rate):
+    plt.annotate(label, xy = (x, y), xytext = (1, -1), textcoords = 'offset points')
 for k, col in zip(range(3), colors):
     mems = dat_label == k
     cent = centroids[k]
     plt.plot(dat_data[mems, 0], dat_data[mems, 1], 'w', markerfacecolor=col, marker='.')
     plt.plot(cent[0], cent[1], 'o', markerfacecolor=col, markersize = 8)
-for label, x, y in zip(states, crime_rate, poverty_rate):
-    plt.annotate(label, xy = (x, y), xytext = (1, -1), textcoords = 'offset points')
+plt.xlabel('Crime Rate', fontsize=14)
+plt.ylabel('Poverty Rate', fontsize=14)
+
 plt.show()
+
