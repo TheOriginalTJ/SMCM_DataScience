@@ -4,18 +4,18 @@ Created on Sat Apr 22 15:26:20 2017
 
 @author: Caroline M Goyco
 """
-
+from __future__ import division
 import matplotlib.pyplot as plt
 import numpy as np
 
 #read in the data
 file1 = "clean_incarceration and income 2004.csv"
-
 f1 = open(file1, "r")
 
 ID = []
 income = []
 
+#income brackets
 group0=0
 group1=0
 group2=0
@@ -34,6 +34,7 @@ group14=0
 group15=0
 
 next(f1)
+#count number of people reported in each bracket
 for line in f1:
     row = line.split(",") 
     ID.append(int(row[0]))
@@ -85,12 +86,13 @@ for line in f1:
     elif(row[1857] == "99"):
         group15+=1
         income.append(-1)   
-        
+
+#store values in list to plot        
 y = [group0, group1, group2,group3,group4,
                group5,group6, group7,group8,
                group9,group10, group11, group12,
                group13,group14,group15]
-               #parameters for barcharts
+#income intervals              
 interval = ("no income", "1-199", "200-399", "400-599",
             "600-799", "800-999", "1000-1199", "1200-1499",
             "1500-1999", "2000-2499", "2500-4999", "5000-7499",
@@ -99,9 +101,39 @@ y_pos = np.arange(len(interval))
 N = len(y)
 x = range(N)
 width = 1/1.5
+#bar chart
 plt.bar(y_pos, y, width, color="blue")
 plt.xticks(y_pos, interval,rotation=45)
 plt.ylabel('Number of responses')
 plt.xlabel('Income range')
 plt.title("Reported Monthly Income 1 Month Before Incarceration in 2004")
 plt.show()
+plt.savefig("Income range frequency.png")
+#total number of participants
+print("-----All participants-----")
+total=0
+for index in range(len(y)):
+    total += y[index]
+#total number of participants who answered question
+total_p=0
+for index in range(len(y)-3):
+    total_p += y[index]
+
+#percent of people in each bracket out of all participants
+percentages = []
+for index in range(len(y)):
+    p = (y[index]/total) * 100
+    percentages.append(p)
+
+for i in range(len(y)):
+    print(interval[i], percentages[i])
+
+#percent of people in each bracket out of those who answered question
+print("-----Participants who answered question-----")
+percentages1 = []
+for index in range(len(y)-3):
+    q = (y[index]/total_p) * 100
+    percentages1.append(q)
+
+for i in range(len(y)-3):
+    print(interval[i], percentages1[i])
