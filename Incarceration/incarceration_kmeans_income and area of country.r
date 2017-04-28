@@ -1,6 +1,7 @@
 library(datasets)
 library(ggplot2)
 
+
 getwd()
 data=read.csv("clean_incarceration and income 2004.csv")
 head(data)
