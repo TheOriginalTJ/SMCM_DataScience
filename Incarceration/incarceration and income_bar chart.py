@@ -4,6 +4,7 @@ Created on Sat Apr 22 15:26:20 2017
 
 @author: Caroline M Goyco
 """
+
 from __future__ import division
 import matplotlib.pyplot as plt
 import numpy as np
