@@ -1,6 +1,6 @@
 # SMCM_DataScience
 
-INSERT CATCHY TITLE HERE
+The Poverty Trap: Socioeconomic Status and its Impact on Racialized Incarceration, Violent Crime, and Police Killings
 
 Authors: Thomas St. Arnold, William Borwegen, Caroline Goyco, Megan Johnson, JP.
 
