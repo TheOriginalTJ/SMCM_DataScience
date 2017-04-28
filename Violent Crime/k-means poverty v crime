@@ -19,7 +19,7 @@ f.next()  # skip headers
 for i in f:
     populations.append(int(i[3].replace(",","")))  # parse as integers and get rid of commas for thousands place
     violent_crimes.append(int(i[6].replace(",","")))
-    poverty_rate.append(i[8])
+    poverty_rate.append(i[10])
     states.append(i[0])
 for i,j in zip(violent_crimes,populations):
     r=i/j  # get crime rate by dividing total crimes committed in 2015 by population in 2015
