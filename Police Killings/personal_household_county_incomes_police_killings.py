@@ -5,6 +5,7 @@ Created on Wed Apr 19 13:19:01 2017
 @author: Megan Johnson
 
 """
+
 from matplotlib import pyplot as plt
 import numpy as np
 from sklearn import linear_model
