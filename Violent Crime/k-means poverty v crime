@@ -1,0 +1,47 @@
+from __future__ import division  # import for float division instead of integer division
+import numpy as np
+from sklearn.cluster import KMeans
+from sklearn import datasets
+import matplotlib.pyplot as plt
+from sklearn.metrics.pairwise import pairwise_distances_argmin
+import csv
+
+
+f = open("violent_crime_by_state.csv")
+f = csv.reader(f)
+violent_crimes=[]
+populations=[]
+poverty_rate=[]
+crime_rate=[]
+states = []
+f.next()  # skip headers
+for i in f:
+    populations.append(int(i[3].replace(",","")))  # parse as integers and get rid of commas for thousands place
+    violent_crimes.append(int(i[6].replace(",","")))
+    poverty_rate.append(i[8])
+    states.append(i[0])
+for i,j in zip(violent_crimes,populations):
+    r=i/j  # get crime rate by dividing total crimes committed in 2015 by population in 2015
+    crime_rate.append(r)
+dat_data=[crime_rate,poverty_rate]
+dat_data = np.column_stack(dat_data)  # format x and y into a compact, readable, 2-D data-set
+
+km = KMeans(n_clusters = 3)  # 3 clusters seems ideal for separating this data-set into groups
+km.fit(dat_data)
+centroids = km.cluster_centers_
+dat_label = pairwise_distances_argmin(dat_data, centroids)
+colors = ['r', 'b', 'g']  # red, blue, and green good/clear for visualization
+plt.figure(figsize=(20,10))
+for label, x, y in zip(states, crime_rate, poverty_rate):
+    plt.annotate(label, xy = (x, y), xytext = (1, -1), textcoords = 'offset points')
+    # add state labels for scatter plot points
+for k, col in zip(range(3), colors):
+    mems = dat_label == k
+    cent = centroids[k]
+    # group and plot k-means part, with center points for groups
+    plt.plot(dat_data[mems, 0], dat_data[mems, 1], 'w', markerfacecolor=col, marker='.')
+    plt.plot(cent[0], cent[1], 'o', markerfacecolor=col, markersize = 8)
+plt.xlabel('Crime Rate', fontsize=14)
+plt.ylabel('Poverty Rate', fontsize=14)
+# label x and y axis with reasonably sized font so people can read it for presentation
+plt.show()
