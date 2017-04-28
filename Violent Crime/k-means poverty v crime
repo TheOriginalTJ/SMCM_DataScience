@@ -7,6 +7,7 @@ from sklearn.metrics.pairwise import pairwise_distances_argmin
 import csv
 
 
+
 f = open("violent_crime_by_state.csv")
 f = csv.reader(f)
 violent_crimes=[]
